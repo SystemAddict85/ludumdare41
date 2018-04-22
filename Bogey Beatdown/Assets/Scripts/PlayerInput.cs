@@ -9,6 +9,9 @@ public class PlayerInput : MonoBehaviour
     Movement move;
     Attack attack;
 
+    [HideInInspector]
+    public GolfBall ball;
+    
     private void Awake()
     {
         move = GetComponent<Movement>();
@@ -27,8 +30,33 @@ public class PlayerInput : MonoBehaviour
         var y = Input.GetAxisRaw("Vertical");
 
         if (Input.GetButtonDown("Attack") && attack.canAttack)
-            attack.StartAttack();
-        else (Mathf.Abs(x) > 0 || Mathf.Abs(y) > 0)
-            move.Move(x, y);
+        {
+            attack.canAttack = false;
+            var chara = GetComponent<Character>();
+            attack.StartAttack(new AttackType(chara,"Swing", chara.stats.attackKnockBack, 1));
+        }
+
+        move.Move(x, y);
+    }
+
+
+    // Only component specific to Player so piggyback until need more
+    public void StartSwingAnimation(GolfBall golf)
+    {
+        ball = golf;
+        GetComponent<Animator>().Play("GolfSwing");
+    }
+    
+    private void LaunchBall()
+    {
+        ball.LaunchBall();
+    }
+
+    private void StopGolfGameAnimation()
+    {
+        if(ball.launchPower < 2)
+        {
+            GetComponent<Character>().UnfreezeCharacter();
+        }
     }
 }

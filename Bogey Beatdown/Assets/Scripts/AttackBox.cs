@@ -4,17 +4,21 @@ using UnityEngine;
 
 public class AttackBox : MonoBehaviour {
 
+    Attack attack;
     BoxCollider2D col;
-    List<GameObject> characterHit = new List<GameObject>();
+    List<GameObject> charactersHit = new List<GameObject>();
 
     private void Awake()
     {
         col = GetComponent<BoxCollider2D>();
+        attack = GetComponentInParent<Attack>();
     }
 
     public void StartHit()
     {
-        characterHit.Clear();
+        charactersHit = new List<GameObject>();
+        col.isTrigger = false;
+        col.isTrigger = true;
         col.enabled = true;
     }
 
@@ -27,16 +31,27 @@ public class AttackBox : MonoBehaviour {
     public List<GameObject> CheckForAttack()
     {
         EndHit();
-        return characterHit;
+        return charactersHit;
     }
 
-    void OnTriggerEnter2D(Collider2D col)
+    void OnTriggerEnter2D(Collider2D otherCol)
     {
-        if(col.gameObject.layer == LayerMask.NameToLayer("CharacterHit") 
-            && !characterHit.Contains(col.gameObject)
-            && col.gameObject != transform.parent.gameObject)
+        print(otherCol.gameObject.name + " entered");
+        var hit = otherCol.GetComponent<CharacterHit>();
+        if( hit && IsOppositeHitOnly(hit))
         {
-            characterHit.Add(col.gameObject);
+            charactersHit.Add(hit.gameObject);
         }
+    }
+
+    bool IsOppositeHitOnly(CharacterHit charHit)
+    {
+        if(!charactersHit.Contains(charHit.gameObject) && col.gameObject != attack.gameObject)
+        {
+            return (charHit.tag == "Player" && attack.tag == "Enemy")
+                || (charHit.tag == "Enemy" && attack.tag == "Player");
+        }
+
+        return false;
     }
 }

@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -14,9 +15,9 @@ TagManager:
   - 
   - 
   - CharacterHit
-  - 
-  - 
-  - 
+  - GolfBall
+  - BallGround
+  - CharacterWall
   - 
   - 
   - 
@@ -40,4 +41,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Characters
+    uniqueID: 3678981583
+    locked: 0
+  - name: UI
+    uniqueID: 78557867
     locked: 0
