@@ -30,7 +30,6 @@ public class Movement : MonoBehaviour
                 stepY *= stats.moveSpeed;
             }
 
-
             if (Mathf.Abs(x) > 0 && Mathf.Abs(y) > 0)
             {
                 stepX *= diagonalSlow;

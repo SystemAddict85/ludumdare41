@@ -79,6 +79,8 @@ public class GolfBall : MonoBehaviour
     }
     private void StartBallCamera()
     {
+        Global.FreezeAllCharacters();
+        
         mainCamera = Camera.main;
         ballCamera.orthographicSize = mainCamera.orthographicSize;
         ballCamera.transform.localPosition = new Vector3(0, 0, -10);
@@ -107,6 +109,9 @@ public class GolfBall : MonoBehaviour
     public void Fail() {
         print("whoops");
         GameManager.Instance.Player.UnfreezeCharacter();
+        var clip = AudioManager.Instance.audioList.ballMiss;
+        StartCoroutine(GameManager.Instance.Player.GetComponent<CharacterHit>().Stun(.5f + clip.length));
+        AudioManager.PlaySFX(clip, 1f);
         QuitGame();
     }
 
@@ -119,9 +124,7 @@ public class GolfBall : MonoBehaviour
     {
         print("Launch ball with " + launchPower);
         
-        ui.GolfGameGauge.SetActive(false);
-
-        Global.FreezeAllCharacters();
+        ui.GolfGameGauge.SetActive(false);        
 
         //add physics to ball
         var rb = GetComponent<Rigidbody2D>();
@@ -129,9 +132,15 @@ public class GolfBall : MonoBehaviour
 
         // follow ball with camera
         if (launchPower == 2)
+        {
             StartBallCamera();
+            AudioManager.PlaySFX(AudioManager.Instance.audioList.ballHit, 1f);
+        }
         else
+        {
+            AudioManager.PlaySFX(AudioManager.Instance.audioList.ballBlip, 1f);
             QuitGame();
+        }
     }
 
     void QuitGame()

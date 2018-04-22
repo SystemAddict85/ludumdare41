@@ -15,6 +15,10 @@ public class Character : MonoBehaviour {
     public void Die()
     {
         print(name + " is dead");
+        if (GetComponent<PlayerInput>())
+        {
+            GameManager.GameOver();
+        }
     }
 
     public void FreezeCharacter()

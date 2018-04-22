@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Attack : MonoBehaviour {
+public class Attack : MonoBehaviour
+{
 
     AttackBox box;
     Animator anim;
@@ -41,7 +42,7 @@ public class Attack : MonoBehaviour {
     {
         GetComponent<Movement>().ToggleMove(false);
         currentAttack = attack;
-        anim.SetTrigger("MainAttack");        
+        anim.SetTrigger("MainAttack");
     }
 
     public void StopHitBox()
@@ -49,15 +50,18 @@ public class Attack : MonoBehaviour {
         var hits = box.CheckForAttack();
 
         foreach (var hit in hits)
-            hit.GetComponent<CharacterHit>().TakeAHit(currentAttack);
-    }    
+        {
+            if (hit.GetComponent<CharacterHit>().canBeHit)
+                hit.GetComponent<CharacterHit>().TakeAHit(currentAttack);
+        }
+    }
 
     public IEnumerator AttackDelay()
     {
         yield return new WaitForSeconds(attackDelay / GetComponent<CharacterStats>().attackSpeed);
         canAttack = true;
     }
-    
+
 }
 
 public class AttackType
@@ -76,7 +80,7 @@ public class AttackType
         this.stun = stun;
         this.knockBack = knockBack;
         this.damage = chara.GetComponent<CharacterStats>().attackDamage;
-        
+
     }
 
     public AttackType(string name, float damage, float stun, float knockBack)

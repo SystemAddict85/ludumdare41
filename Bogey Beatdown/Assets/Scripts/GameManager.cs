@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,5 +18,12 @@ public class GameManager : MonoBehaviour {
 
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>();
     }
-	
+
+    public static void GameOver()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("game_over");
+    }
+
+    
+
 }

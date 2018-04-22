@@ -24,6 +24,9 @@ public class CharacterHit : MonoBehaviour {
         KnockBack(attack.knockBack, dir);
 
         chara.stats.ChangeHealth(-attack.damage);
+                
+        AudioManager.PlaySFX(AudioManager.Instance.audioList.hurt, 1f);
+        
         StartCoroutine(Stun(attack.stun));
     }
 
@@ -44,7 +47,15 @@ public class CharacterHit : MonoBehaviour {
 
     public IEnumerator Stun(float dur)
     {
+        var anim = GetComponent<Animator>();
+        chara.FreezeCharacter();
+        anim.SetBool("isHurt", true);
+        SpriteManager.BlinkSprite(GetComponent<SpriteRenderer>(), dur - .02f);
+       // anim.Play("Hurt");
         yield return new WaitForSeconds(dur);
+        anim.SetBool("isHurt", false);
+        chara.UnfreezeCharacter();
+
         canBeHit = true;
     }
     
