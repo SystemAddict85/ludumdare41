@@ -15,9 +15,16 @@ public class Character : MonoBehaviour {
     public void Die()
     {
         print(name + " is dead");
+
         if (GetComponent<PlayerInput>())
         {
-            GameManager.GameOver();
+            GetComponent<SpriteRenderer>().color = new Color(255f,255f,255f, 0f);
+            GameManager.Instance.GameOver("You lose");
+        }
+        else
+        {
+            Global.RemoveStageEnemy();
+            Destroy(this.gameObject, .5f);
         }
     }
 
@@ -31,6 +38,12 @@ public class Character : MonoBehaviour {
         {
             GetComponent<Attack>().canAttack = false;
         }
+        if (GetComponent<EnemyAI>())
+        {
+            GetComponent<EnemyAI>().canThink = false;
+        }
+        if (GetComponent<PlayerInput>())
+            GameManager.Instance.GolfBall.canPlayGolf = false;
     }
     public void UnfreezeCharacter()
     {
@@ -42,5 +55,11 @@ public class Character : MonoBehaviour {
         {
             GetComponent<Attack>().canAttack = true;
         }
+        if (GetComponent<EnemyAI>())
+        {
+            GetComponent<EnemyAI>().canThink = true;
+        }
+        if (GetComponent<PlayerInput>())
+            GameManager.Instance.GolfBall.canPlayGolf = true;
     }
 }

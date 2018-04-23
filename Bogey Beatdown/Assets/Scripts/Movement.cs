@@ -55,6 +55,28 @@ public class Movement : MonoBehaviour
         }
     }
 
+    public void MoveCamera(float x, float y, float moveSpeed)
+    {
+        if (canMove)
+        {
+            var stepX = x * Time.deltaTime * moveSpeedHorizontal;
+            var stepY = y * Time.deltaTime * moveSpeedVertical;
+
+          
+            stepX *= moveSpeed;
+            stepY *= moveSpeed;
+
+            if (Mathf.Abs(x) > 0 && Mathf.Abs(y) > 0)
+            {
+                stepX *= diagonalSlow;
+                stepY *= diagonalSlow;
+            }
+
+            transform.position += new Vector3(stepX, stepY);
+            
+        }
+    }
+
     public void ToggleMove(bool enabled)
     {
         canMove = enabled;

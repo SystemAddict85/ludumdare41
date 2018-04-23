@@ -59,12 +59,15 @@ public class SpriteManager : MonoBehaviour
         var currentTime = 0f;
         while (currentTime + rateOfBlink < duration)
         {
-            rend.enabled = false;
+            if (rend)
+                rend.enabled = false;
             yield return new WaitForSeconds(rateOfBlink / 2);
-            rend.enabled = true;
+            if (rend)
+                rend.enabled = true;
             yield return new WaitForSeconds(rateOfBlink / 2);
             currentTime += rateOfBlink;
         }
-        rend.enabled = true;
+        if(rend)
+            rend.enabled = true;
     }
 }

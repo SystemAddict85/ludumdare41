@@ -36,7 +36,6 @@ public class AttackBox : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D otherCol)
     {
-        print(otherCol.gameObject.name + " entered");
         var hit = otherCol.GetComponent<CharacterHit>();
         if( hit && IsOppositeHitOnly(hit))
         {

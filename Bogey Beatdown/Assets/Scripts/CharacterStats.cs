@@ -37,6 +37,11 @@ public class CharacterStats : MonoBehaviour {
             health = maxHealth;
         else
             health += change;
+        
+        if (GetComponent<PlayerInput>())
+        {
+            GameManager.Instance.UI.UpdateHealthBar(health, maxHealth);
+        }
 
         if (CheckForDeath())
             chara.Die();

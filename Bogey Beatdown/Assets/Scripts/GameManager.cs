@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour {
     public static GameManager Instance { private set; get; }
 
     public Character Player;
+    public GolfBall GolfBall;
+    public UIManager UI;
 
 	void Awake()
     {
@@ -17,10 +19,24 @@ public class GameManager : MonoBehaviour {
             Destroy(this);
 
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>();
+        GolfBall = GameObject.FindObjectOfType<GolfBall>();
+        UI = GameObject.Find("GUI").GetComponent<UIManager>();
     }
 
-    public static void GameOver()
+    public void LaunchStage(int stageNumber)
     {
+        
+    }
+
+    public void GameOver(string message)
+    {
+        Global.FreezeAllCharacters();
+        UI.ShowMessage(message);
+        StartCoroutine(DelaySceneChange());
+    }
+    IEnumerator DelaySceneChange() {
+
+        yield return new WaitForSeconds(4f);
         UnityEngine.SceneManagement.SceneManager.LoadScene("game_over");
     }
 

@@ -17,17 +17,22 @@ public class CharacterHit : MonoBehaviour {
 
     public void TakeAHit(AttackType attack)
     {
+        
+        if (GetComponent<PlayerInput>() && GameManager.Instance.GolfBall.isPlaying) {
+            GameManager.Instance.GolfBall.QuitGame();
+        }
+
         print(gameObject.name + " has been hit by: " + attack.chara.name + " using " + attack.attackName);
         canBeHit = false;
 
         Vector2 dir = transform.position - attack.chara.transform.position;
         KnockBack(attack.knockBack, dir);
 
-        chara.stats.ChangeHealth(-attack.damage);
-                
+                        
         AudioManager.PlaySFX(AudioManager.Instance.audioList.hurt, 1f);
         
         StartCoroutine(Stun(attack.stun));
+        chara.stats.ChangeHealth(-attack.damage);
     }
 
     public void TakeAHit(float damage, float stunDur, float knockBack, Vector2 position)
@@ -53,6 +58,7 @@ public class CharacterHit : MonoBehaviour {
         SpriteManager.BlinkSprite(GetComponent<SpriteRenderer>(), dur - .02f);
        // anim.Play("Hurt");
         yield return new WaitForSeconds(dur);
+
         anim.SetBool("isHurt", false);
         chara.UnfreezeCharacter();
 
