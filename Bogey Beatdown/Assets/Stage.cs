@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StageStopper : MonoBehaviour {
+public class Stage : MonoBehaviour {
 
     public int stageNumber = 1;
     public string message = "Stage Start";
-
+    
     public EnemySpawner[] spawners;
 	// Use this for initialization
 	void Awake () {
@@ -18,7 +18,7 @@ public class StageStopper : MonoBehaviour {
     {
         if(collision.tag == "StageCollider")
         {
-            // GameManager.Instance.LaunchStage(stageNumber);
+            GameManager.Instance.CurrentStage = this;
             StartCoroutine(StartSpawners());
         }
     }

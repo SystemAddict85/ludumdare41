@@ -55,13 +55,13 @@ public class CharacterHit : MonoBehaviour {
         var anim = GetComponent<Animator>();
         chara.FreezeCharacter();
         anim.SetBool("isHurt", true);
-        SpriteManager.BlinkSprite(GetComponent<SpriteRenderer>(), dur - .02f);
+        SpriteManager.BlinkSprite(GetComponent<SpriteRenderer>(), chara.stats.recoveryTime + dur);
        // anim.Play("Hurt");
         yield return new WaitForSeconds(dur);
 
         anim.SetBool("isHurt", false);
         chara.UnfreezeCharacter();
-
+        yield return new WaitForSeconds(chara.stats.recoveryTime);
         canBeHit = true;
     }
     

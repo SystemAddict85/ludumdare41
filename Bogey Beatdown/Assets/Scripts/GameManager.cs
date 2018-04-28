@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager Instance { private set; get; }
 
+    public Stage CurrentStage { get; set; }
+
     public Character Player;
     public GolfBall GolfBall;
     public UIManager UI;

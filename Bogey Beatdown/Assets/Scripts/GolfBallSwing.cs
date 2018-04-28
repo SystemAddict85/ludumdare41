@@ -14,6 +14,20 @@ public class GolfBallSwing : MonoBehaviour {
     {
         golfBall = GetComponentInParent<GolfBall>();
     }
+
+    private void Update()
+    {
+        if (!GameManager.Instance.CurrentStage)
+        {
+            GetComponent<Collider2D>().enabled = true;
+            if (isPlayerInRange)
+                CheckForPlayerInteraction();
+        }
+        else
+        {
+            GetComponent<Collider2D>().enabled = false;
+        }
+    }
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
@@ -31,17 +45,10 @@ public class GolfBallSwing : MonoBehaviour {
             golfBall.ui.StartGameButton.SetActive(false);
         }
     }
-
-
-    private void Update()
-    {
-        if(isPlayerInRange)
-            CheckForPlayerInteraction();
-    }
-
+    
     private void CheckForPlayerInteraction()
     {
-        if (Input.GetButtonDown("GolfSwing") && golfBall.canPlayGolf)
+        if (Input.GetButtonDown("Attack") && golfBall.canPlayGolf)
         {
             golfBall.canPlayGolf = false;
             golfBall.StartBallGame();

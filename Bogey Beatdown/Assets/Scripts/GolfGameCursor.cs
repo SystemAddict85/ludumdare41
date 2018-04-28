@@ -8,7 +8,6 @@ public class GolfGameCursor : MonoBehaviour
 {
 
     private GolfBall ball;
-    private float cursorStep = .1f;
 
     public float moveRate = 2.5f;
 

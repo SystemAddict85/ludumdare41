@@ -32,6 +32,7 @@ public static class Global
         {
             Camera.main.GetComponent<Movement>().canMove = true;
             GameManager.Instance.UI.ShowMessage("Stage Complete", 2f);
+            GameManager.Instance.CurrentStage = null;
         }
     }
 }

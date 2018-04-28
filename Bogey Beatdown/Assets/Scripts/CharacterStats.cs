@@ -19,7 +19,8 @@ public class CharacterStats : MonoBehaviour {
     public float moveSpeed = 1;
     [Range(1, 10)]
     public float defense = 1;
-
+    [Range(1,2)]
+    public float recoveryTime = 1f;
 
     private void Awake()
     {
